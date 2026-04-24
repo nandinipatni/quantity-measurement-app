@@ -31,3 +31,5 @@ public class QuantityMeasurementAppTest {
         assertTrue(f1.equals(f1));
     }
 }
+
+System.out.println("UC1 PR test");
