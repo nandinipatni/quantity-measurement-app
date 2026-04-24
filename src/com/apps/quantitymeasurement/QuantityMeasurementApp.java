@@ -52,11 +52,18 @@ public class QuantityMeasurementApp {
 
     public static void main(String[] args) {
 
-        Length l1 = new Length(1.0, LengthUnit.FEET);
-        Length l2 = new Length(12.0, LengthUnit.INCHES);
+    // WEIGHT TESTS
+    Weight w1 = new Weight(1.0, WeightUnit.KILOGRAM);
+    Weight w2 = new Weight(1000.0, WeightUnit.GRAM);
+    Weight w3 = new Weight(2.20462, WeightUnit.POUND);
 
-        System.out.println(l1.add(l2, LengthUnit.FEET));   // 2 FEET
-        System.out.println(l1.add(l2, LengthUnit.INCHES)); // 24 INCHES
-        System.out.println(l1.add(l2, LengthUnit.YARDS));  // ~0.667 YARDS
+    System.out.println("1kg == 1000g: " + w1.equals(w2)); // true
+    System.out.println("1kg == ~2.20462lb: " + w1.equals(w3)); // true
+
+    System.out.println("1kg to grams: " + w1.convertTo(WeightUnit.GRAM)); // 1000g
+    System.out.println("1kg to pounds: " + w1.convertTo(WeightUnit.POUND)); // ~2.2lb
+
+    System.out.println("1kg + 1000g (kg): " + w1.add(w2, WeightUnit.KILOGRAM)); // 2kg
+    System.out.println("1kg + 1000g (g): " + w1.add(w2, WeightUnit.GRAM)); // 2000g
     }
 }
