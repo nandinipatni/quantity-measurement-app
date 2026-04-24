@@ -38,25 +38,25 @@ public class QuantityMeasurementApp {
 
         public Length convertTo(LengthUnit targetUnit) {
             double baseFeet = this.toFeet();
-            double converted = targetUnit.fromFeet(baseFeet);
-            return new Length(converted, targetUnit);
+            return new Length(targetUnit.fromFeet(baseFeet), targetUnit);
         }
 
-        // 🔥 UC6 CORE METHOD
+        // UC6 method (keep it)
         public Length add(Length other) {
-            if (other == null) {
-                throw new IllegalArgumentException("Other length cannot be null");
+            double sumFeet = this.toFeet() + other.toFeet();
+            return new Length(this.unit.fromFeet(sumFeet), this.unit);
+        }
+
+        // 🔥 UC7 CORE METHOD
+        public Length add(Length other, LengthUnit targetUnit) {
+            if (other == null || targetUnit == null) {
+                throw new IllegalArgumentException("Invalid input");
             }
 
             double sumFeet = this.toFeet() + other.toFeet();
-            double resultValue = this.unit.fromFeet(sumFeet);
+            double result = targetUnit.fromFeet(sumFeet);
 
-            return new Length(resultValue, this.unit);
-        }
-
-        // optional static version (extra marks)
-        public static Length add(Length l1, Length l2) {
-            return l1.add(l2);
+            return new Length(result, targetUnit);
         }
 
         @Override
@@ -79,8 +79,8 @@ public class QuantityMeasurementApp {
         Length l1 = new Length(1.0, LengthUnit.FEET);
         Length l2 = new Length(12.0, LengthUnit.INCHES);
 
-        Length result = l1.add(l2);
-
-        System.out.println("Result: " + result); // should be 2 FEET
+        System.out.println(l1.add(l2, LengthUnit.FEET));    // 2 FEET
+        System.out.println(l1.add(l2, LengthUnit.INCHES));  // 24 INCHES
+        System.out.println(l1.add(l2, LengthUnit.YARDS));   // ~0.667 YARDS
     }
 }
