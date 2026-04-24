@@ -36,26 +36,27 @@ public class QuantityMeasurementApp {
             return unit.toFeet(value);
         }
 
-        // 🔥 NEW METHOD (UC5 CORE)
         public Length convertTo(LengthUnit targetUnit) {
-            if (targetUnit == null) {
-                throw new IllegalArgumentException("Target unit cannot be null");
-            }
-
             double baseFeet = this.toFeet();
-            double convertedValue = targetUnit.fromFeet(baseFeet);
-
-            return new Length(convertedValue, targetUnit);
+            double converted = targetUnit.fromFeet(baseFeet);
+            return new Length(converted, targetUnit);
         }
 
-        // 🔥 STATIC CONVERT METHOD (IMPORTANT FOR ASSIGNMENT)
-        public static double convert(double value, LengthUnit from, LengthUnit to) {
-            if (!Double.isFinite(value) || from == null || to == null) {
-                throw new IllegalArgumentException("Invalid input");
+        // 🔥 UC6 CORE METHOD
+        public Length add(Length other) {
+            if (other == null) {
+                throw new IllegalArgumentException("Other length cannot be null");
             }
 
-            double baseFeet = from.toFeet(value);
-            return to.fromFeet(baseFeet);
+            double sumFeet = this.toFeet() + other.toFeet();
+            double resultValue = this.unit.fromFeet(sumFeet);
+
+            return new Length(resultValue, this.unit);
+        }
+
+        // optional static version (extra marks)
+        public static Length add(Length l1, Length l2) {
+            return l1.add(l2);
         }
 
         @Override
@@ -75,9 +76,11 @@ public class QuantityMeasurementApp {
 
     public static void main(String[] args) {
 
-        // Demo conversions (as shown in your doc page 9)
-        System.out.println(Length.convert(1.0, LengthUnit.FEET, LengthUnit.INCHES)); // 12
-        System.out.println(Length.convert(3.0, LengthUnit.YARDS, LengthUnit.FEET)); // 9
-        System.out.println(Length.convert(36.0, LengthUnit.INCHES, LengthUnit.YARDS)); // 1
+        Length l1 = new Length(1.0, LengthUnit.FEET);
+        Length l2 = new Length(12.0, LengthUnit.INCHES);
+
+        Length result = l1.add(l2);
+
+        System.out.println("Result: " + result); // should be 2 FEET
     }
 }
